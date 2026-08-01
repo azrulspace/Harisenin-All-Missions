@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Premium E-Course</title>
+  <link rel="stylesheet" href="../styles/global.css?v=2">
+</head>
+<body>
+  <div class="auth-wrapper">
+    <div class="auth-image" style="background-image: url('../asset/auth-bg.png');">
+      <!-- This is the decorative section for the auth page -->
+    </div>
+    <div class="auth-form-container">
+      <div class="auth-form-content">
+        <a href="../index.html" class="brand" style="margin-bottom: 40px; justify-content: center;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary-color)"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          E-<span>Learn</span>
+        </a>
+        <div class="auth-header">
+          <h1>Welcome back</h1>
+          <p>Please enter your details to sign in.</p>
+        </div>
+        <form action="#">
+          <div class="form-group">
+            <label class="form-label" for="email">Email</label>
+            <input type="email" id="email" class="form-input" placeholder="Enter your email" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="password">Password</label>
+            <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; font-size: 0.875rem;">
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+              <input type="checkbox" style="accent-color: var(--primary-color);"> Remember me
+            </label>
+            <a href="#" style="font-weight: 500;">Forgot password?</a>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
+        </form>
+        <div class="auth-footer">
+          Don't have an account? <a href="signup.html" style="font-weight: 600;">Sign up</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
