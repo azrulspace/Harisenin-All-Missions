@@ -1,4 +1,4 @@
-# 🚀 Harisenin Missions Monorepo
+# 🚀 Harisenin Missions - Full-Stack Web Development Learning
 
 This repository is a centralized collection of missions assigned during the Harisenin Bootcamp. 
 All missions uploaded are part of the **Full-Stack Web Development learning program on the Harisenin.com platform**. These completed missions are learning assignments that must be finished to complete this 3-6 month bootcamp program.
