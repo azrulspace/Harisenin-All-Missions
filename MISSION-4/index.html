@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile-First To-Do List</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header / Profile Section -->
+        <header class="header">
+            <div class="profile-info">
+                <h1 class="profile-name">Hazrul Aswad</h1>
+                <p class="profile-role">Product Designer / UI/UX</p>
+            </div>
+            <div class="datetime-info">
+                <p id="live-date" class="date-text">Memuat tanggal...</p>
+                <p id="live-time" class="time-text">--:--:--</p>
+            </div>
+        </header>
+
+        <!-- Form Input Task -->
+        <section class="task-form-section">
+            <h2>Tambah Tugas Baru</h2>
+            <form id="task-form">
+                <div class="form-group">
+                    <label for="task-desc">Deskripsi Tugas</label>
+                    <textarea id="task-desc" rows="3" placeholder="Apa yang ingin Anda kerjakan?" required></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label for="task-priority">Prioritas</label>
+                        <select id="task-priority" required>
+                            <option value="Low">Low (Rendah)</option>
+                            <option value="Medium" selected>Medium (Sedang)</option>
+                            <option value="High">High (Tinggi)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group half">
+                        <label for="task-due-date">Jatuh Tempo (Opsional)</label>
+                        <input type="date" id="task-due-date">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit">Tambah Tugas</button>
+            </form>
+        </section>
+
+        <!-- Task List Containers -->
+        <section class="task-lists-section">
+            <div class="list-container pending-container">
+                <div class="list-header">
+                    <h2>To-Do (Pending)</h2>
+                    <span id="pending-count" class="badge-count">0</span>
+                </div>
+                <ul id="pending-list" class="task-list">
+                    <!-- Pending tasks will be rendered here -->
+                </ul>
+            </div>
+
+            <div class="list-container done-container">
+                <div class="list-header">
+                    <h2>Done (Completed)</h2>
+                    <span id="done-count" class="badge-count">0</span>
+                </div>
+                <ul id="done-list" class="task-list">
+                    <!-- Completed tasks will be rendered here -->
+                </ul>
+            </div>
+        </section>
+
+        <!-- Action Controls -->
+        <section class="action-controls">
+            <button id="btn-delete-all" class="btn-delete-all">Hapus Semua Data</button>
+        </section>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

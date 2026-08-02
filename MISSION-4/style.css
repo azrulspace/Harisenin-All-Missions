@@ -1,0 +1,328 @@
+/* Base Reset & Variables */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-color: #f3f4f6;
+    --card-bg: #ffffff;
+    --text-main: #1f2937;
+    --text-muted: #6b7280;
+    --primary: #3b82f6;
+    --primary-hover: #2563eb;
+    --danger: #ef4444;
+    --danger-hover: #dc2828;
+    
+    /* Priority Colors */
+    --priority-high: #fee2e2;
+    --priority-high-text: #b91c1c;
+    --priority-medium: #fef3c7;
+    --priority-medium-text: #b45309;
+    --priority-low: #dcfce7;
+    --priority-low-text: #15803d;
+
+    /* Overdue Colors */
+    --overdue-bg: #991b1b;
+    --overdue-text: #ffffff;
+
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.5;
+    padding: 16px;
+}
+
+/* Mobile-First Container */
+.app-container {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Desktop View Support */
+@media (min-width: 768px) {
+    body {
+        padding: 40px 16px;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .app-container {
+        max-width: 600px;
+        background-color: var(--card-bg);
+        padding: 32px;
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow);
+    }
+}
+
+/* Header */
+.header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.profile-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.profile-role {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.datetime-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.875rem;
+    color: var(--primary);
+    font-weight: 500;
+    margin-top: 4px;
+}
+
+/* Form Section */
+.task-form-section h2 {
+    font-size: 1.125rem;
+    margin-bottom: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+@media (min-width: 480px) {
+    .form-row {
+        flex-direction: row;
+    }
+    .form-group.half {
+        flex: 1;
+    }
+}
+
+input, select, textarea {
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: var(--radius-sm);
+    outline: none;
+    transition: border-color 0.2s;
+    /* Minimum touch target size 44px */
+    min-height: 44px;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--primary);
+}
+
+textarea {
+    resize: vertical;
+}
+
+.btn-submit {
+    width: 100%;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    min-height: 44px;
+    transition: background-color 0.2s;
+}
+
+.btn-submit:hover {
+    background-color: var(--primary-hover);
+}
+
+/* Task Lists */
+.task-lists-section {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.list-header h2 {
+    font-size: 1.125rem;
+}
+
+.badge-count {
+    background-color: #e5e7eb;
+    color: var(--text-main);
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.task-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.task-item {
+    background-color: var(--card-bg);
+    border: 1px solid #e5e7eb;
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    display: flex;
+    gap: 12px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.task-checkbox-container {
+    padding-top: 2px;
+}
+
+.task-checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.task-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.task-desc {
+    font-size: 0.95rem;
+    word-break: break-word;
+}
+
+.task-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    font-size: 0.75rem;
+}
+
+.badge {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.badge-high {
+    background-color: var(--priority-high);
+    color: var(--priority-high-text);
+}
+
+.badge-medium {
+    background-color: var(--priority-medium);
+    color: var(--priority-medium-text);
+}
+
+.badge-low {
+    background-color: var(--priority-low);
+    color: var(--priority-low-text);
+}
+
+.badge-overdue {
+    background-color: var(--overdue-bg);
+    color: var(--overdue-text);
+}
+
+.task-date {
+    color: var(--text-muted);
+}
+
+.btn-delete-task {
+    background: none;
+    border: none;
+    color: var(--danger);
+    cursor: pointer;
+    padding: 4px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-delete-task:hover {
+    color: var(--danger-hover);
+    text-decoration: underline;
+}
+
+/* Completed Tasks Style */
+.task-item.completed {
+    opacity: 0.7;
+    background-color: #f9fafb;
+}
+
+.task-item.completed .task-desc {
+    text-decoration: line-through;
+    color: var(--text-muted);
+}
+
+/* Action Controls */
+.action-controls {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.btn-delete-all {
+    width: 100%;
+    background-color: white;
+    color: var(--danger);
+    border: 1px solid var(--danger);
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    min-height: 44px;
+    transition: all 0.2s;
+}
+
+.btn-delete-all:hover {
+    background-color: var(--danger);
+    color: white;
+}
