@@ -1,4 +1,16 @@
-# React + Vite
+# Mission 5: React Basic Landing Page
+
+Ini adalah proyek untuk Mission 5 dari bootcamp Harisenin. Proyek ini berfokus pada pembuatan antarmuka pengguna (UI) Landing Page yang responsif dan modern menggunakan **React** dan **Tailwind CSS**. 
+
+Beberapa poin utama pada proyek ini:
+- Menggunakan komponen *reusable* (seperti `Card`, `FeatureCard`, `Button`, dll).
+- Diimplementasikan dengan konsep "Junior Frontend Developer", di mana kode dan UI dilengkapi dengan banyak komentar detail serta *helper texts* untuk membantu developer lain belajar dan memahami flow aplikasi.
+- Menggunakan **React Router** untuk memfasilitasi *Single Page Application* (SPA) dengan multi-halaman (`/`, `/login`, `/register`).
+- Layout pembungkus (`MainLayout`) untuk menampilkan `Navbar` dan `Footer` pada halaman tertentu.
+
+---
+
+## React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
