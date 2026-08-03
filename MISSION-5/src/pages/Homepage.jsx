@@ -9,6 +9,9 @@ import Button from '../components/common/Button';
 import FeatureCard from '../components/common/FeatureCard';
 import PricingCard from '../components/common/PricingCard';
 
+// Mengimpor gambar mockup
+import mockupImg from '../assets/Mockup Sample Saas.png';
+
 // Ini adalah Functional Component untuk Halaman Utama (Homepage)
 const Homepage = () => {
   return (
@@ -49,19 +52,15 @@ const Homepage = () => {
           
           {/* Mockup Image */}
           <div className="mt-16 relative max-w-5xl mx-auto">
-            <div className="rounded-2xl border border-gray-200/50 shadow-2xl bg-white p-2 relative group">
+            <div className="rounded-4xl border border-gray-200/50 shadow-2xl bg-white p-2 relative group">
               
               {/* Pesan helper dari Frontend Junior */}
-              <div className="absolute top-4 right-4 bg-blue-100 text-blue-800 text-xs px-3 py-1.5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity z-10 shadow-sm border border-blue-200">
-                💡 Gambar asli akan ditambahkan nanti setelah desain dari UI/UX selesai!
+              <div className="absolute top-4 right-4 bg-green-100 text-green-800 text-xs px-3 py-1.5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity z-10 shadow-sm border border-green-200">
+                ✅ Gambar mockup berhasil ditambahkan
               </div>
 
-              <div className="rounded-xl overflow-hidden bg-gray-50 aspect-[16/9] flex items-center justify-center border border-gray-100">
-                {/* Placeholder for actual dashboard image */}
-                <div className="text-gray-400 flex flex-col items-center">
-                  <LayoutDashboard size={64} className="mb-4 text-primary-200" />
-                  <p className="text-lg font-medium">Dashboard Interface Preview</p>
-                </div>
+              <div className="rounded-3xl overflow-hidden bg-gray-50 flex items-center justify-center border border-gray-100">
+                <img src={mockupImg} alt="Dashboard Interface Preview" className="w-full h-auto object-cover" />
               </div>
             </div>
           </div>
