@@ -1,7 +1,7 @@
 // Array tunggal untuk menyimpan objek task
 let tasks = [];
 
-// DOM Elements
+// DOM Elements here
 const liveDateEl = document.getElementById('live-date');
 const liveTimeEl = document.getElementById('live-time');
 const taskForm = document.getElementById('task-form');
@@ -15,12 +15,6 @@ const pendingCountEl = document.getElementById('pending-count');
 const doneCountEl = document.getElementById('done-count');
 const btnDeleteAll = document.getElementById('btn-delete-all');
 
-// Fix: Memastikan popup date picker muncul saat seluruh area input diklik
-taskDueDateInput.addEventListener('click', function() {
-    if (this.showPicker) {
-        this.showPicker();
-    }
-});
 
 // 1. Live Time & Date Update
 function updateDateTime() {
@@ -55,7 +49,7 @@ function saveTasks() {
 function isOverdue(dueDateString) {
     if (!dueDateString) return false;
     
-    // Hapus bagian jam dari waktu saat ini agar komparasi hanya berbasis tanggal
+    // Hapus bagian jam dr wkt saat ini biar komparasi hanya berbasis tanggal
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     
