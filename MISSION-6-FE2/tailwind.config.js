@@ -5,7 +5,11 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}", // <-- Pastikan pola ini ada
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['Geist', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 }
