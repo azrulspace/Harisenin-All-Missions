@@ -1,10 +1,22 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import Home from './Home';
+import LoginModal from '../components/LoginModal';
 
 function Login() {
+  const navigate = useNavigate();
+
   return (
-    <div className="p-8 flex items-center justify-center min-h-screen">
-      <h1 className="text-3xl font-bold">Login Page</h1>
-    </div>
+    <>
+      {/* Background Home */}
+      <Home />
+      
+      {/* Login Modal Overlay */}
+      <LoginModal 
+        isOpen={true} 
+        onClose={() => navigate('/')} 
+      />
+    </>
   );
 }
 

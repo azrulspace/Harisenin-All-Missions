@@ -1,10 +1,22 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import Home from './Home';
+import RegisterModal from '../components/RegisterModal';
 
 function Register() {
+  const navigate = useNavigate();
+
   return (
-    <div className="p-8 flex items-center justify-center min-h-screen">
-      <h1 className="text-3xl font-bold">Register Page</h1>
-    </div>
+    <>
+      {/* Background Home */}
+      <Home />
+      
+      {/* Register Modal Overlay */}
+      <RegisterModal 
+        isOpen={true} 
+        onClose={() => navigate('/')} 
+      />
+    </>
   );
 }
 
