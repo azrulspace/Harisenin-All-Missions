@@ -47,9 +47,9 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Right Content - Mockup Card (Agento UI Card representation) */}
+        {/* Right Content - Mockup Card (Figma SMK SKV UI Card representation) */}
         <div className="w-full lg:w-[578px] h-[400px] lg:h-[578px] bg-[#e9eaeb] rounded-t-[20px] rounded-b-[20px] lg:rounded-b-none relative overflow-hidden flex items-center justify-center border border-gray-200 shadow-xl lg:shadow-none">
-           {/* Placeholder for Agento Card based on user prompt requirements */}
+           {/* Placeholder for Figma SMK SKV Card based on user prompt requirements */}
            <div className="bg-white p-6 rounded-2xl shadow-lg w-[80%] max-w-[400px] flex flex-col gap-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center text-indigo-600 font-bold text-xl">A</div>
