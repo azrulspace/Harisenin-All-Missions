@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import logoSmkDkv from '../assets/icons/Logo SMK DKV.svg';
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -9,21 +10,11 @@ export default function Navbar() {
     <nav className="w-full flex justify-center pt-6 px-4 md:px-8 absolute top-0 z-50">
       <div className="w-full max-w-[1280px] flex items-center justify-between lg:justify-center lg:gap-[32px]">
         {/* Main Pill (Logo + Links) */}
-        <div className="bg-white border border-[#e9eaeb] flex items-center px-4 md:px-[32px] py-[8px] rounded-[80px] w-full lg:w-auto justify-between lg:justify-start lg:gap-[20px] shadow-sm">
+        <div className="bg-white border border-[#e9eaeb] flex items-center px-4 md:px-[32px] py-[12px] rounded-[80px] w-full lg:w-auto justify-between lg:justify-start lg:gap-[20px] shadow-sm">
           
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-[10px]">
-            <div className="flex items-center justify-center bg-[#0082fb] rounded-full w-[30px] h-[30px] shadow-inner relative overflow-hidden">
-                <div className="grid grid-cols-2 gap-[1px] p-[6px]">
-                  <div className="bg-white rounded-[1px] w-[6px] h-[6px]"></div>
-                  <div className="bg-white rounded-[1px] w-[6px] h-[6px]"></div>
-                  <div className="bg-white rounded-[1px] w-[6px] h-[6px]"></div>
-                  <div className="bg-white rounded-[1px] w-[6px] h-[6px]"></div>
-                </div>
-            </div>
-            <span className="font-medium text-[20px] text-[#181d27] tracking-[-1px] whitespace-nowrap">
-              SMK DKV IDN
-            </span>
+          <Link to="/" className="flex items-center">
+            <img src={logoSmkDkv} alt="SMK DKV IDN" className="h-[28px] w-auto" />
           </Link>
 
           {/* Desktop Links */}

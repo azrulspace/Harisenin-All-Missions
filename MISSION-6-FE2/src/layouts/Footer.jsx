@@ -1,4 +1,5 @@
 import React from 'react';
+import logoSmkDkv from '../assets/icons/Logo SMK DKV.svg';
 
 const Footer = () => {
   return (
@@ -8,17 +9,9 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12">
           {/* Kolom Kiri */}
           <div className="lg:col-span-5">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center">
               {/* Logo */}
-              <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M4 4H10V10H4V4Z" fill="white" />
-                  <path d="M14 4H20V10H14V4Z" fill="white" />
-                  <path d="M4 14H10V20H4V14Z" fill="white" />
-                  <path d="M14 14H20V20H14V14Z" fill="white" />
-                </svg>
-              </div>
-              <span className="text-xl font-bold text-gray-900">SMK DKV IDN</span>
+              <img src={logoSmkDkv} alt="SMK DKV IDN" className="h-[32px] w-auto" />
             </div>
             <p className="text-sm text-gray-500 max-w-sm mt-6 leading-relaxed">
               We believe in the power of design to transform businesses. Our team of talented designers, strategists, and creative thinkers.
@@ -96,7 +89,7 @@ const Footer = () => {
             &copy; 2026 - All Rights Reserved
           </p>
           <p className="text-xs text-gray-500 text-center">
-            @idnboardingschool <span className="mx-2 hidden md:inline">|</span><br className="md:hidden" /> www.idn.sch.id <span className="mx-2 hidden md:inline">|</span><br className="md:hidden" /> #IDN Muda Mendunia
+            @idnboardingschool <span className="mx-2 hidden md:inline">|</span><br className="md:hidden" /> www.idn.sch.id <span className="mx-2 hidden md:inline">|</span><br className="md:hidden" /> Crafted by Hazrul Aswad
           </p>
           <div className="flex gap-4">
             <a href="#" className="text-xs text-gray-500 hover:underline">Privacy Policy</a>

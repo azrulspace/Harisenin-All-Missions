@@ -32,6 +32,7 @@ const RegisterModal = ({ isOpen, onClose }) => {
       await registerUser(formData);
       setFormData({ fullName: '', email: '', phoneNumber: '', password: '' });
       onClose();
+      navigate('/login');
     } catch (error) {
       setErrorMessage(error.message || 'Terjadi kesalahan saat registrasi.');
     } finally {

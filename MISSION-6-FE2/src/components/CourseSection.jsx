@@ -18,8 +18,6 @@ export default function CourseSection({ courses }) {
   return (
     <section className="bg-white py-24 font-sans">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
-        
-        {/* Header Section */}
         <div className="flex flex-col md:flex-row md:justify-between md:items-end mb-12 gap-6">
           <div className="max-w-2xl">
             <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">SOROTAN KURSUS KAMI</h3>
@@ -51,7 +49,6 @@ export default function CourseSection({ courses }) {
           </div>
         </div>
 
-        {/* Cards Layout */}
         <div 
           ref={scrollContainerRef}
           className="flex gap-6 overflow-x-auto pb-8 pt-4 scrollbar-hide scroll-smooth snap-x"
