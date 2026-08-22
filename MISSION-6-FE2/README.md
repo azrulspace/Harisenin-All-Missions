@@ -5,7 +5,7 @@ Proyek ini adalah sebuah platform katalog kursus dan manajemen kurikulum untuk S
 ## Fitur Utama
 
 - **Showcase Katalog Kursus Interaktif**: Menampilkan daftar kelas yang tersedia dengan animasi dan tata letak yang menarik, dilengkapi dengan tab fokus materi yang intuitif.
-- **Autentikasi Multi Mode**: Mendukung berbagai cara untuk masuk ke platform, termasuk Email dan Password biasa, integrasi Google, serta OTP via WhatsApp.
+- **Autentikasi Multi Mode**: Mendukung berbagai cara untuk masuk ke platform, termasuk Email dan Password biasa, integrasi Google, serta OTP via WhatsApp. (next implementation including database in backend 😎)
 - **Product Detail Page**: Halaman detail kursus yang komprehensif, dilengkapi sidebar aksi yang sticky untuk pendaftaran, dan kurikulum yang menggunakan sistem accordion.
 - **Panel Admin Manajemen Kursus**: Antarmuka admin untuk operasi CRUD (Create, Read, Update, Delete) data kursus. Admin dapat menyaring status publikasi, mencari kursus secara real time, dan menyusun materi pembelajaran secara dinamis.
 
