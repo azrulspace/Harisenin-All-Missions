@@ -36,8 +36,8 @@ export default function CourseDetail() {
             title: fetchedCourse.title,
             description: fetchedCourse.description,
             learnersJoined: fetchedCourse.learners || 0,
-            price: fetchedCourse.price === 'GRATIS' ? 0 : Number(fetchedCourse.price),
-            isFree: fetchedCourse.price === 'GRATIS',
+            price: fetchedCourse.price === 'GRATIS' || Number(fetchedCourse.price) === 0 ? 0 : Number(fetchedCourse.price),
+            isFree: fetchedCourse.price === 'GRATIS' || Number(fetchedCourse.price) === 0,
             coverImage: fetchedCourse.detailData?.coverImage || '',
             educators: fetchedCourse.detailData?.educators || [],
             chapters: sections.map(section => ({
@@ -261,7 +261,7 @@ export default function CourseDetail() {
                 <div className="flex items-center justify-between">
                   <span className="text-gray-500 font-medium text-sm">Harga Kelas</span>
                   <span className={`font-bold text-xl ${course.isFree ? 'text-[#EA3829]' : 'text-gray-900'}`}>
-                    {course.isFree ? 'GRATIS' : `Rp ${course.price}`}
+                    {course.isFree ? 'GRATIS' : `Rp ${Number(course.price).toLocaleString('id-ID')}`}
                   </span>
                 </div>
 

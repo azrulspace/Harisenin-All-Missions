@@ -1,6 +1,6 @@
 import React from 'react';
 import iconChapter from '../assets/icons/course-card/icon-chapter.svg';
-import iconVideo from '../assets/icons/course-card/video.svg';
+import iconFileText from '../assets/icons/course-card/file-text.svg';
 import iconBeginner from '../assets/icons/course-card/icon-skill-level-beginner.svg';
 import iconIntermediate from '../assets/icons/course-card/icon-skill-level-intermediate.svg';
 import iconAdvance from '../assets/icons/course-card/icon-skill-level-advance.svg';
@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 export default function CourseCard({ course }) {
   const navigate = useNavigate();
   const isComingSoon = course.status === 'COMING_SOON';
+  const totalMaterials = course.detailData?.sections?.reduce((acc, section) => acc + (section.materials?.length || 0), 0) || course.videos || 0;
 
   const getLevelIcon = (level) => {
     const l = level?.toLowerCase();
@@ -23,15 +24,25 @@ export default function CourseCard({ course }) {
     <div className="bg-[#F8F9FA] rounded-[24px] border border-gray-200/70 p-2.5 pb-3 flex flex-col justify-between h-full min-w-[320px] w-full">
       <div className="bg-white rounded-[18px] border border-gray-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex flex-col h-full overflow-hidden">
         
-        <div className="relative h-[178px] bg-gradient-to-br from-[#DFF2ED]/60 via-[#E4F0F4]/60 to-[#EFE9F5]/70 p-5 flex flex-col justify-between shrink-0">
-          <div className="bg-[#EA3829] text-white text-[12px] font-semibold px-3 py-1 rounded-full w-fit flex items-center gap-1.5 shadow-sm">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
-            <span>New Course</span>
+        {course.coverImage ? (
+          <div className="relative h-[178px] shrink-0">
+            <img src={course.coverImage} alt="Course Cover" className="w-full h-full object-cover" />
+            <div className="absolute top-5 left-5 bg-[#EA3829] text-white text-[12px] font-semibold px-3 py-1 rounded-full w-fit flex items-center gap-1.5 shadow-sm">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+              <span>New Course</span>
+            </div>
           </div>
-          <div className="text-[28px] font-bold text-gray-900 tracking-tight font-mono">
-            {course.software}
+        ) : (
+          <div className="relative h-[178px] bg-gradient-to-br from-[#DFF2ED]/60 via-[#E4F0F4]/60 to-[#EFE9F5]/70 p-5 flex flex-col justify-between shrink-0">
+            <div className="bg-[#EA3829] text-white text-[12px] font-semibold px-3 py-1 rounded-full w-fit flex items-center gap-1.5 shadow-sm">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+              <span>New Course</span>
+            </div>
+            <div className="text-[28px] font-bold text-gray-900 tracking-tight font-mono">
+              {course.software}
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="p-5 flex-1 flex flex-col">
           <h3 className="text-[20px] font-bold text-[#1a202c] leading-snug mb-3 line-clamp-2" title={course.title}>{course.title}</h3>
@@ -42,11 +53,11 @@ export default function CourseCard({ course }) {
           <div className="grid grid-cols-2 gap-x-4 gap-y-3.5 text-[14px] text-[#4A5568] font-medium mb-6 mt-1">
             <div className="flex items-center">
               <img src={iconChapter} alt="Chapter" className="w-5 h-5 mr-2 opacity-80" />
-              <span>{course.chapters || 0} Chapter</span>
+              <span>{course.chapters || course.detailData?.sections?.length || 0} Chapter</span>
             </div>
             <div className="flex items-center">
-              <img src={iconVideo} alt="Video" className="w-5 h-5 mr-2 opacity-80" />
-              <span>{course.videos || 0} Video</span>
+              <img src={iconFileText} alt="Materi" className="w-5 h-5 mr-2 opacity-80" />
+              <span>{totalMaterials} Materi</span>
             </div>
             <div className="flex items-center">
               <img src={getLevelIcon(course.level)} alt="Level" className="w-5 h-5 mr-2 opacity-80" />
@@ -54,8 +65,8 @@ export default function CourseCard({ course }) {
             </div>
             <div className="flex items-center">
               <img src={iconMoney} alt="Price" className="w-5 h-5 mr-2 opacity-80" />
-              <span className={course.price === 'GRATIS' ? 'text-[#4A5568]' : ''}>
-                {course.price === 'GRATIS' ? 'GRATIS' : `Rp ${Number(course.price).toLocaleString('id-ID')}`}
+              <span className={course.price === 'GRATIS' || Number(course.price) === 0 ? 'text-[#4A5568]' : ''}>
+                {course.price === 'GRATIS' || Number(course.price) === 0 ? 'GRATIS' : `Rp ${Number(course.price).toLocaleString('id-ID')}`}
               </span>
             </div>
           </div>

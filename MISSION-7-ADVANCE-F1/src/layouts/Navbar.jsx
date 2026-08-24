@@ -19,16 +19,16 @@ export default function Navbar() {
 
           {/* Desktop Links */}
           <div className="hidden lg:flex items-center gap-[22px] ml-4 border-l border-[#e9eaeb] pl-6">
-            <Link to="#" className="font-medium text-[16px] text-[#181d27] hover:text-[#0082fb] transition-colors">Curriculum</Link>
-            <Link to="#" className="font-medium text-[16px] text-[#181d27] hover:text-[#0082fb] transition-colors">Courses</Link>
-            <div className="flex items-center gap-[8px] cursor-pointer group">
+            <Link to="/curriculum" className="font-medium text-[16px] text-[#181d27] hover:text-[#0082fb] transition-colors">Curriculum</Link>
+            <Link to="/courses" className="font-medium text-[16px] text-[#181d27] hover:text-[#0082fb] transition-colors">Courses</Link>
+            <Link to="/showcase" className="flex items-center gap-[8px] cursor-pointer group">
               <span className="font-medium text-[16px] text-[#181d27] group-hover:text-[#0082fb] transition-colors">Showcase</span>
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M3 4.5L6 7.5L9 4.5" stroke="#181d27" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-            </div>
-            <Link to="#" className="font-medium text-[16px] text-[#181d27] hover:text-[#0082fb] transition-colors">PPDB</Link>
-            <Link to="#" className="font-medium text-[16px] text-[#181d27] hover:text-[#0082fb] transition-colors">About</Link>
+            </Link>
+            <Link to="/ppdb" className="font-medium text-[16px] text-[#181d27] hover:text-[#0082fb] transition-colors">PPDB</Link>
+            <Link to="/about" className="font-medium text-[16px] text-[#181d27] hover:text-[#0082fb] transition-colors">About</Link>
           </div>
 
           {/* Mobile Hamburger Button */}
@@ -62,11 +62,11 @@ export default function Navbar() {
       {/* Mobile Menu Dropdown */}
       {isMobileMenuOpen && (
         <div className="absolute top-[80px] left-4 right-4 bg-white rounded-2xl shadow-xl p-6 flex flex-col gap-4 border border-gray-100 lg:hidden">
-          <Link to="#" className="font-medium text-lg text-gray-800">Curriculum</Link>
-          <Link to="#" className="font-medium text-lg text-gray-800">Courses</Link>
-          <Link to="#" className="font-medium text-lg text-gray-800">Showcase</Link>
-          <Link to="#" className="font-medium text-lg text-gray-800">PPDB</Link>
-          <Link to="#" className="font-medium text-lg text-gray-800">About</Link>
+          <Link to="/curriculum" className="font-medium text-lg text-gray-800" onClick={() => setIsMobileMenuOpen(false)}>Curriculum</Link>
+          <Link to="/courses" className="font-medium text-lg text-gray-800" onClick={() => setIsMobileMenuOpen(false)}>Courses</Link>
+          <Link to="/showcase" className="font-medium text-lg text-gray-800" onClick={() => setIsMobileMenuOpen(false)}>Showcase</Link>
+          <Link to="/ppdb" className="font-medium text-lg text-gray-800" onClick={() => setIsMobileMenuOpen(false)}>PPDB</Link>
+          <Link to="/about" className="font-medium text-lg text-gray-800" onClick={() => setIsMobileMenuOpen(false)}>About</Link>
           <hr className="my-2" />
           <button 
             onClick={() => { navigate('/login'); setIsMobileMenuOpen(false); }}

@@ -9,6 +9,7 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 import ManageCourses from './pages/admin/ManageCourses';
 import CreateCourse from './pages/admin/CreateCourse';
 import EditCourse from './pages/admin/EditCourse';
+import UnderConstruction from './pages/UnderConstruction';
 
 function App() {
   return (
@@ -18,6 +19,15 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/course/:id" element={<CourseDetail />} />
+        
+        {/* Under Construction Routes */}
+        <Route path="/curriculum" element={<UnderConstruction />} />
+        <Route path="/courses" element={<UnderConstruction />} />
+        <Route path="/showcase/*" element={<UnderConstruction />} />
+        <Route path="/ppdb" element={<UnderConstruction />} />
+        <Route path="/about" element={<UnderConstruction />} />
+        <Route path="*" element={<UnderConstruction />} />
+
         <Route 
           path="/admin/dashboard" 
           element={
