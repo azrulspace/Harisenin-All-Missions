@@ -1,21 +1,20 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getCourses, saveCourses } from '../../services/courseData';
+import { useCourses } from '../../hooks/useCourses';
 
 export default function ManageCourses() {
   const navigate = useNavigate();
-  const [courses, setCourses] = useState([]);
+  const { courses, loading, error, fetchCourses, deleteCourse } = useCourses();
   const [searchQuery, setSearchQuery] = useState('');
 
   // Load courses on mount
   useEffect(() => {
-    setCourses(getCourses());
-  }, []);
-  const handleDelete = (id) => {
+    fetchCourses();
+  }, [fetchCourses]);
+
+  const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this course?")) {
-      const updated = courses.filter(course => course.id !== id);
-      setCourses(updated);
-      saveCourses(updated);
+      await deleteCourse(id);
     }
   };
 
@@ -99,7 +98,19 @@ export default function ManageCourses() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {filteredCourses.length > 0 ? (
+              {loading ? (
+                <tr>
+                  <td colSpan="6" className="px-6 py-12 text-center text-gray-500">
+                    Loading courses...
+                  </td>
+                </tr>
+              ) : error ? (
+                <tr>
+                  <td colSpan="6" className="px-6 py-12 text-center text-red-500">
+                    {error}
+                  </td>
+                </tr>
+              ) : filteredCourses.length > 0 ? (
                 filteredCourses.map((course) => (
                   <tr key={course.id} className="hover:bg-gray-50/50 transition-colors">
                     <td className="px-6 py-4">

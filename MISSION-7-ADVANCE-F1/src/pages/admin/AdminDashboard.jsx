@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getCourses } from '../../services/courseData';
+import { useCourses } from '../../hooks/useCourses';
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({
@@ -9,13 +9,13 @@ export default function AdminDashboard() {
     totalLearners: 0,
     notVerifiedLearners: 0,
   });
-  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const { fetchCourses, loading } = useCourses();
 
   useEffect(() => {
-    const fetchStats = () => {
+    const loadStats = async () => {
       try {
-        const courses = getCourses();
+        const courses = await fetchCourses();
         const totalCourses = courses.length;
         const activeCourses = courses.filter(c => c.status === 'ACTIVE' || c.status === 'PUBLISHED').length;
         const totalLearners = courses.reduce((sum, c) => sum + (c.learners || 0), 0);
@@ -28,13 +28,11 @@ export default function AdminDashboard() {
         });
       } catch (error) {
         console.error("Failed to fetch dashboard stats", error);
-      } finally {
-        setIsLoading(false);
       }
     };
 
-    fetchStats();
-  }, []);
+    loadStats();
+  }, [fetchCourses]);
 
   return (
     <div className="w-full">
@@ -54,7 +52,7 @@ export default function AdminDashboard() {
           <div>
             <p className="text-xs font-medium text-gray-500 mb-0.5">Total Courses</p>
             <p className="text-2xl font-bold text-gray-900 leading-none">
-              {isLoading ? '-' : stats.totalCourses}
+              {loading ? '-' : stats.totalCourses}
             </p>
           </div>
         </div>
@@ -69,7 +67,7 @@ export default function AdminDashboard() {
           <div>
             <p className="text-xs font-medium text-gray-500 mb-0.5">Active Courses</p>
             <p className="text-2xl font-bold text-gray-900 leading-none">
-              {isLoading ? '-' : stats.activeCourses}
+              {loading ? '-' : stats.activeCourses}
             </p>
           </div>
         </div>
@@ -86,7 +84,7 @@ export default function AdminDashboard() {
           <div>
             <p className="text-xs font-medium text-gray-500 mb-0.5">Total Learners</p>
             <p className="text-2xl font-bold text-gray-900 leading-none">
-              {isLoading ? '-' : stats.totalLearners}
+              {loading ? '-' : stats.totalLearners}
             </p>
           </div>
         </div>
@@ -101,7 +99,7 @@ export default function AdminDashboard() {
           <div>
             <p className="text-xs font-medium text-gray-500 mb-0.5">Not Verified Learners</p>
             <p className="text-2xl font-bold text-gray-900 leading-none">
-              {isLoading ? '-' : stats.notVerifiedLearners}
+              {loading ? '-' : stats.notVerifiedLearners}
             </p>
           </div>
         </div>

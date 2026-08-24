@@ -1,18 +1,16 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import CourseForm from '../../components/admin/CourseForm';
-import { getCourses, saveCourses } from '../../services/courseData';
+import { useCourses } from '../../hooks/useCourses';
 
 export default function CreateCourse() {
   const navigate = useNavigate();
+  const { createCourse } = useCourses();
 
-  const handleCreateCourse = (formData) => {
-    const existingCourses = getCourses();
-    
+  const handleCreateCourse = async (formData) => {
     // Convert formData to match the simplified structure required by the landing page
     // and also keep the detailed data for the detail page.
     const newCourse = {
-      id: Date.now().toString(),
       software: formData.software,
       title: formData.title,
       description: formData.description,
@@ -34,9 +32,13 @@ export default function CreateCourse() {
       }
     };
 
-    const updatedCourses = [...existingCourses, newCourse];
-    saveCourses(updatedCourses);
-    navigate('/admin/courses');
+    try {
+      await createCourse(newCourse);
+      navigate('/admin/courses');
+    } catch (err) {
+      console.error(err);
+      alert('Gagal membuat kursus');
+    }
   };
 
   const handleCancel = () => {

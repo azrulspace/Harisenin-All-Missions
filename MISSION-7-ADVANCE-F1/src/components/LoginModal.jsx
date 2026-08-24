@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginUser, sendOtpWhatsApp, verifyOtpWhatsApp } from '../services/authService';
+import { sendOtpWhatsApp, verifyOtpWhatsApp } from '../services/authService';
+import { useAuth } from '../hooks/useAuth';
 
 const LoginModal = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
+  const { login, loginWithGoogle } = useAuth();
   const [step, setStep] = useState('DEFAULT'); // 'DEFAULT' | 'WA_INPUT' | 'WA_OTP'
   
   const [formData, setFormData] = useState({
@@ -40,17 +42,36 @@ const LoginModal = ({ isOpen, onClose }) => {
     setErrorMessage('');
 
     try {
-      const result = await loginUser(formData);
+      const result = await login(formData);
       setFormData({ identifier: '', password: '' });
       onClose();
-      
-      if (result.data.user.role === 'ADMIN') {
+      if (result.user.role === 'ADMIN') {
         navigate('/admin/dashboard');
       } else {
         navigate('/dashboard/learning/1');
       }
     } catch (error) {
       setErrorMessage(error.message || 'Terjadi kesalahan saat login.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    setIsLoading(true);
+    setErrorMessage('');
+    
+    try {
+      const result = await loginWithGoogle();
+      onClose();
+      
+      if (result.user.role === 'ADMIN') {
+        navigate('/admin/dashboard');
+      } else {
+        navigate('/dashboard/learning/1');
+      }
+    } catch (error) {
+      setErrorMessage(error.message || 'Terjadi kesalahan saat login dengan Google.');
     } finally {
       setIsLoading(false);
     }
@@ -169,7 +190,12 @@ const LoginModal = ({ isOpen, onClose }) => {
       </div>
 
       <div className="flex flex-col gap-3 mb-6">
-        <button type="button" className="border border-gray-200 rounded-xl py-3 px-4 flex items-center justify-center gap-3 font-medium text-sm text-gray-700 hover:bg-gray-50 transition-colors w-full">
+        <button 
+          type="button" 
+          onClick={handleGoogleLogin}
+          disabled={isLoading}
+          className="border border-gray-200 rounded-xl py-3 px-4 flex items-center justify-center gap-3 font-medium text-sm text-gray-700 hover:bg-gray-50 transition-colors w-full disabled:opacity-50"
+        >
           <svg width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M47.532 24.5528C47.532 22.9214 47.3997 21.2811 47.1175 19.6761H24.48V28.918H37.4434C36.9055 31.8988 35.177 34.5356 32.6461 36.2111V42.2078H40.3801C44.9217 38.0278 47.532 31.8547 47.532 24.5528Z" fill="#4285F4"/>
             <path d="M24.48 48.0016C30.9529 48.0016 36.4116 45.8766 40.3888 42.2078L32.6549 36.2111C30.5031 37.675 27.7252 38.5039 24.4888 38.5039C18.2275 38.5039 12.9187 34.2798 11.0139 28.6006H3.03296V34.7825C7.10718 42.8868 15.4056 48.0016 24.48 48.0016Z" fill="#34A853"/>

@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import CourseDetailNavbar from '../layouts/CourseDetailNavbar';
 import Footer from '../layouts/Footer';
 import LoginModal from '../components/LoginModal';
 import RegisterModal from '../components/RegisterModal';
-import { mockCourseDetail } from '../services/courseData';
+import { useCourses } from '../hooks/useCourses';
 import iconPdf from '../assets/icons/Product Page/file-pdf.svg';
 import iconPdfBold from '../assets/icons/Product Page/file-pdf-bold.svg';
 import iconPptx from '../assets/icons/Product Page/papers-text.svg';
@@ -17,11 +17,64 @@ import iconVideoBold from '../assets/icons/Product Page/video-play-bold.svg';
 export default function CourseDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const course = mockCourseDetail;
+  const { fetchCourseById, loading } = useCourses();
+  const [course, setCourse] = useState(null);
   
   const [expandedSessions, setExpandedSessions] = useState({});
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+
+  useEffect(() => {
+    const loadCourse = async () => {
+      try {
+        const fetchedCourse = await fetchCourseById(id);
+        if (fetchedCourse) {
+          const sections = fetchedCourse.detailData?.sections || [];
+          
+          const uiCourse = {
+            id: fetchedCourse.id,
+            title: fetchedCourse.title,
+            description: fetchedCourse.description,
+            learnersJoined: fetchedCourse.learners || 0,
+            price: fetchedCourse.price === 'GRATIS' ? 0 : Number(fetchedCourse.price),
+            isFree: fetchedCourse.price === 'GRATIS',
+            coverImage: fetchedCourse.detailData?.coverImage || '',
+            educators: fetchedCourse.detailData?.educators || [],
+            chapters: sections.map(section => ({
+              id: Math.random().toString(),
+              title: section.title,
+              duration: section.duration,
+              lessons: section.materials || []
+            })),
+            included: {
+              pdf: 0,
+              pptx: 0,
+              text: 0,
+              video: 0
+            }
+          };
+
+          sections.forEach(section => {
+            (section.materials || []).forEach(material => {
+              const type = material.type.toLowerCase();
+              if (type === 'pdf') uiCourse.included.pdf++;
+              else if (type === 'pptx') uiCourse.included.pptx++;
+              else if (type === 'video') uiCourse.included.video++;
+              else uiCourse.included.text++;
+            });
+          });
+
+          setCourse(uiCourse);
+        } else {
+          navigate('/');
+        }
+      } catch (err) {
+        console.error(err);
+        navigate('/');
+      }
+    };
+    loadCourse();
+  }, [id, fetchCourseById, navigate]);
 
   const toggleSession = (index) => {
     setExpandedSessions(prev => ({
@@ -31,6 +84,7 @@ export default function CourseDetail() {
   };
 
   const expandAll = () => {
+    if (!course) return;
     const allExpanded = {};
     course.chapters.forEach((_, index) => {
       allExpanded[index] = true;
@@ -42,7 +96,7 @@ export default function CourseDetail() {
     setExpandedSessions({});
   };
 
-  const isAllExpanded = Object.keys(expandedSessions).length === course.chapters.length && Object.values(expandedSessions).every(Boolean);
+  const isAllExpanded = course ? Object.keys(expandedSessions).length === course.chapters.length && Object.values(expandedSessions).every(Boolean) : false;
 
   const handleEnrollClick = () => {
     setIsLoginModalOpen(true);
@@ -65,7 +119,10 @@ export default function CourseDetail() {
       />
       
       <main className="flex-1">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-8 py-12">
+        {loading || !course ? (
+          <div className="py-20 text-center text-gray-500">Memuat detail kursus...</div>
+        ) : (
+          <div className="max-w-[1280px] mx-auto px-6 lg:px-8 py-12">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start relative">
             <div className="lg:col-span-8">
               
@@ -263,6 +320,7 @@ export default function CourseDetail() {
 
           </div>
         </div>
+        )}
       </main>
 
       <Footer />
