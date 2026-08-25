@@ -9,7 +9,14 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 import ManageCourses from './pages/admin/ManageCourses';
 import CreateCourse from './pages/admin/CreateCourse';
 import EditCourse from './pages/admin/EditCourse';
+import ManageLearners from './pages/admin/ManageLearners';
+import LearnerLayout from './layouts/LearnerLayout';
+import LearnerDashboard from './pages/learner/LearnerDashboard';
+import MyLearning from './pages/learner/MyLearning';
+import CoursePlayer from './pages/learner/CoursePlayer';
 import UnderConstruction from './pages/UnderConstruction';
+import LearnerSettings from './pages/learner/LearnerSettings';
+
 
 function App() {
   return (
@@ -38,12 +45,54 @@ function App() {
             </ProtectedRoute>
           } 
         />
+
+        {/* Learner Routes */}
+        <Route 
+          path="/learner/dashboard" 
+          element={
+            <ProtectedRoute requiredRole="LEARNER">
+              <LearnerLayout>
+                <LearnerDashboard />
+              </LearnerLayout>
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/learner/my-learning" 
+          element={
+            <ProtectedRoute requiredRole="LEARNER">
+              <LearnerLayout>
+                <MyLearning />
+              </LearnerLayout>
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/learner/course-player/:courseId/lesson/:lessonId" 
+          element={
+            <ProtectedRoute requiredRole="LEARNER">
+              <CoursePlayer />
+            </ProtectedRoute>
+          } 
+        />
+        <Route path="/learner/purchase" element={<ProtectedRoute requiredRole="LEARNER"><LearnerLayout><UnderConstruction /></LearnerLayout></ProtectedRoute>} />
+        <Route path="/learner/settings" element={<ProtectedRoute requiredRole="LEARNER"><LearnerLayout><LearnerSettings /></LearnerLayout></ProtectedRoute>} />
         <Route 
           path="/admin/courses" 
           element={
             <ProtectedRoute requiredRole="ADMIN">
               <AdminLayout>
                 <ManageCourses />
+              </AdminLayout>
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/admin/learners" 
+          element={
+            <ProtectedRoute requiredRole="ADMIN">
+              <AdminLayout>
+                <ManageLearners />
               </AdminLayout>
             </ProtectedRoute>
           } 

@@ -11,7 +11,23 @@ export const registerUser = async (payload) => {
       // Simulate successful registration
       const dummyToken = "dummy_token_" + Math.random().toString(36).substr(2);
       localStorage.setItem("auth_token", dummyToken);
+      localStorage.setItem("user_role", "LEARNER");
+      localStorage.setItem("user_name", payload.fullName);
+      localStorage.setItem("user_email", payload.email);
       
+      // Save to mock users list for Admin Dashboard
+      const existingUsers = JSON.parse(localStorage.getItem("mock_users") || "[]");
+      existingUsers.push({
+        id: Date.now().toString(),
+        name: payload.fullName,
+        email: payload.email,
+        phone: payload.phoneNumber,
+        role: "LEARNER",
+        registeredAt: new Date().toISOString(),
+        status: "Active"
+      });
+      localStorage.setItem("mock_users", JSON.stringify(existingUsers));
+
       resolve({
         success: true,
         message: "Registrasi berhasil!",
@@ -19,6 +35,7 @@ export const registerUser = async (payload) => {
           user: {
             fullName: payload.fullName,
             email: payload.email,
+            role: "LEARNER"
           },
           token: dummyToken,
         }

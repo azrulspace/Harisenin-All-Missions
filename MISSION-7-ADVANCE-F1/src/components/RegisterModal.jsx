@@ -33,7 +33,7 @@ const RegisterModal = ({ isOpen, onClose }) => {
       await register(formData);
       setFormData({ fullName: '', email: '', phoneNumber: '', password: '' });
       onClose();
-      navigate('/login');
+      navigate('/learner/dashboard');
     } catch (error) {
       setErrorMessage(error.message || 'Terjadi kesalahan saat registrasi.');
     } finally {
@@ -52,7 +52,7 @@ const RegisterModal = ({ isOpen, onClose }) => {
       if (result.user.role === 'ADMIN') {
         navigate('/admin/dashboard');
       } else {
-        navigate('/dashboard/learning/1');
+        navigate('/learner/dashboard');
       }
     } catch (error) {
       setErrorMessage(error.message || 'Terjadi kesalahan saat registrasi dengan Google.');

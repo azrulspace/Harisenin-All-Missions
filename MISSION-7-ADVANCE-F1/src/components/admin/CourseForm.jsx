@@ -100,7 +100,8 @@ export default function CourseForm({ initialData, onSubmit, onCancel }) {
             duration: '00:10:00',
             urlLink: '',
             textContent: '',
-            coverImage: ''
+            coverImage: '',
+            description: ''
           }
         ]
       }
@@ -162,7 +163,8 @@ export default function CourseForm({ initialData, onSubmit, onCancel }) {
         duration: '00:10:00',
         urlLink: '',
         textContent: '',
-        coverImage: ''
+        coverImage: '',
+        description: ''
       });
       return { ...prev, sections: newSections };
     });
@@ -434,7 +436,7 @@ export default function CourseForm({ initialData, onSubmit, onCancel }) {
                         {/* Dynamic Fields */}
                         {material.type === 'TEXT_BASED' ? (
                           <>
-                            <div>
+                            <div className="md:col-span-12">
                               <label className="block text-xs font-semibold text-gray-600 mb-1.5">Text Content:</label>
                               <ReactQuill 
                                 theme="snow"
@@ -467,6 +469,16 @@ export default function CourseForm({ initialData, onSubmit, onCancel }) {
                             />
                           </div>
                         )}
+
+                        <div className="md:col-span-12 mt-2">
+                          <label className="block text-xs font-semibold text-gray-600 mb-1.5">Material Description / About This Material</label>
+                          <textarea 
+                            value={material.description || ''}
+                            onChange={(e) => handleUpdateMaterial(sIdx, mIdx, 'description', e.target.value)}
+                            placeholder="This material will guide you through... Write description or instructions here"
+                            className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-500 transition-all resize-y min-h-[80px]"
+                          />
+                        </div>
                       </div>
                       <button 
                         type="button"
