@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { courseApi } from '../../services/api/courseApi';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCourses as fetchCoursesThunk } from '../../store/slices/courseSlice';
 import LearnerCourseCard from '../../components/learner/LearnerCourseCard';
 
 export default function LearnerDashboard() {
-  const [courses, setCourses] = useState([]);
+  const dispatch = useDispatch();
+  const { courses, status } = useSelector(state => state.course);
+  const loading = status === 'loading';
   const [searchQuery, setSearchQuery] = useState('');
-  const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState({ show: false, message: '' });
 
   useEffect(() => {
@@ -14,13 +16,9 @@ export default function LearnerDashboard() {
 
   const fetchCourses = async () => {
     try {
-      setLoading(true);
-      const data = await courseApi.fetchCourses();
-      setCourses(data);
+      await dispatch(fetchCoursesThunk());
     } catch (error) {
       console.error('Failed to fetch courses:', error);
-    } finally {
-      setLoading(false);
     }
   };
 

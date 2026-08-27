@@ -1,89 +1,86 @@
-import { useState, useCallback } from 'react';
-import { courseApi } from '../services/api/courseApi';
+import { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { 
+  fetchCourses as fetchCoursesThunk, 
+  fetchCourseById as fetchCourseByIdThunk, 
+  createCourse as createCourseThunk, 
+  updateCourse as updateCourseThunk, 
+  deleteCourse as deleteCourseThunk 
+} from '../store/slices/courseSlice';
 
 export const useCourses = () => {
-  const [courses, setCourses] = useState([]);
-  const [course, setCourse] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const { courses, currentCourse, status, error } = useSelector((state) => state.course);
+  const loading = status === 'loading';
 
   const fetchCourses = useCallback(async () => {
-    setLoading(true);
-    setError(null);
     try {
-      const data = await courseApi.fetchCourses();
-      setCourses(data);
-      return data;
+      const resultAction = await dispatch(fetchCoursesThunk());
+      if (fetchCoursesThunk.fulfilled.match(resultAction)) {
+        return resultAction.payload;
+      } else {
+        throw new Error(resultAction.payload || 'Gagal mengambil data kursus');
+      }
     } catch (err) {
-      setError(err.message || 'Gagal mengambil data kursus');
       throw err;
-    } finally {
-      setLoading(false);
     }
-  }, []);
+  }, [dispatch]);
 
   const fetchCourseById = useCallback(async (id) => {
-    setLoading(true);
-    setError(null);
     try {
-      const data = await courseApi.fetchCourseById(id);
-      setCourse(data);
-      return data;
+      const resultAction = await dispatch(fetchCourseByIdThunk(id));
+      if (fetchCourseByIdThunk.fulfilled.match(resultAction)) {
+        return resultAction.payload;
+      } else {
+        throw new Error(resultAction.payload || 'Gagal mengambil detail kursus');
+      }
     } catch (err) {
-      setError(err.message || 'Gagal mengambil detail kursus');
       throw err;
-    } finally {
-      setLoading(false);
     }
-  }, []);
+  }, [dispatch]);
 
   const createCourse = async (courseData) => {
-    setLoading(true);
-    setError(null);
     try {
-      const data = await courseApi.createCourse(courseData);
-      setCourses((prev) => [...prev, data]);
-      return data;
+      const resultAction = await dispatch(createCourseThunk(courseData));
+      if (createCourseThunk.fulfilled.match(resultAction)) {
+        return resultAction.payload;
+      } else {
+        throw new Error(resultAction.payload || 'Gagal membuat kursus baru');
+      }
     } catch (err) {
-      setError(err.message || 'Gagal membuat kursus baru');
       throw err;
-    } finally {
-      setLoading(false);
     }
   };
 
   const updateCourse = async (id, courseData) => {
-    setLoading(true);
-    setError(null);
     try {
-      const data = await courseApi.updateCourse(id, courseData);
-      setCourses((prev) => prev.map((c) => (c.id === id ? data : c)));
-      return data;
+      const resultAction = await dispatch(updateCourseThunk({ id, courseData }));
+      if (updateCourseThunk.fulfilled.match(resultAction)) {
+        return resultAction.payload;
+      } else {
+        throw new Error(resultAction.payload || 'Gagal memperbarui kursus');
+      }
     } catch (err) {
-      setError(err.message || 'Gagal memperbarui kursus');
       throw err;
-    } finally {
-      setLoading(false);
     }
   };
 
   const deleteCourse = async (id) => {
-    setLoading(true);
-    setError(null);
     try {
-      await courseApi.deleteCourse(id);
-      setCourses((prev) => prev.filter((c) => c.id !== id));
+      const resultAction = await dispatch(deleteCourseThunk(id));
+      if (deleteCourseThunk.fulfilled.match(resultAction)) {
+        return resultAction.payload;
+      } else {
+        throw new Error(resultAction.payload || 'Gagal menghapus kursus');
+      }
     } catch (err) {
-      setError(err.message || 'Gagal menghapus kursus');
       throw err;
-    } finally {
-      setLoading(false);
     }
   };
 
   return {
     courses,
-    course,
+    course: currentCourse,
     loading,
     error,
     fetchCourses,

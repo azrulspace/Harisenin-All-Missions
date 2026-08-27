@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getCourseCurriculum, getLessonProgress, markLessonCompleted } from '../../services/learnerService';
-import { courseApi } from '../../services/api/courseApi';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCourseById as fetchCourseByIdThunk } from '../../store/slices/courseSlice';
 
 const getEmbedUrl = (url) => {
   if (!url) return '';
@@ -23,22 +24,26 @@ export default function CoursePlayer() {
   const [courseTitle, setCourseTitle] = useState('Memuat kursus...');
   const [loading, setLoading] = useState(true);
   const [showCompletionModal, setShowCompletionModal] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (courseId) {
       const loadData = async () => {
         setLoading(true);
         try {
-          const course = await courseApi.fetchCourseById(courseId);
-          if (course) {
-            setCourseTitle(course.title);
+          const resultAction = await dispatch(fetchCourseByIdThunk(courseId));
+          if (fetchCourseByIdThunk.fulfilled.match(resultAction)) {
+            const course = resultAction.payload;
+            if (course) {
+              setCourseTitle(course.title);
+              
+              const curData = getCourseCurriculum(course);
+              setCurriculum(curData);
+              
+              const totalMaterials = curData.reduce((acc, sec) => acc + sec.materialsCount, 0);
+              setProgress(getLessonProgress(courseId, totalMaterials));
+            }
           }
-          
-          const curData = await getCourseCurriculum(courseId);
-          setCurriculum(curData);
-          
-          const totalMaterials = curData.reduce((acc, sec) => acc + sec.materialsCount, 0);
-          setProgress(getLessonProgress(courseId, totalMaterials));
         } catch (error) {
           console.error("Failed to load course player data:", error);
         } finally {

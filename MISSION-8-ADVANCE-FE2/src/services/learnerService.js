@@ -1,7 +1,5 @@
 // src/services/learnerService.js
 
-import { courseApi } from './api/courseApi';
-
 /**
  * Gets the list of enrolled course IDs for the current user.
  * In a real app, this would be an API call to a backend.
@@ -15,9 +13,8 @@ export const getEnrolledCourses = () => {
 /**
  * Gets enrolled courses with progress data.
  */
-export const getEnrolledCoursesWithProgress = async () => {
+export const getEnrolledCoursesWithProgress = (allCourses = []) => {
   const enrolledIds = getEnrolledCourses();
-  const allCourses = await courseApi.fetchCourses();
   
   return enrolledIds.map(id => {
     const course = allCourses.find(c => String(c.id) === String(id));
@@ -83,9 +80,8 @@ export const enrollInCourse = async (courseId) => {
 
 // --- Course Player & Curriculum Mocks ---
 
-export const getCourseCurriculum = async (courseId) => {
+export const getCourseCurriculum = (course) => {
   try {
-    const course = await courseApi.fetchCourseById(courseId);
     if (!course || !course.detailData || !course.detailData.sections) {
       return [];
     }

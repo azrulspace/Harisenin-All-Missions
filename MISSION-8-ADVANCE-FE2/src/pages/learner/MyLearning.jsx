@@ -1,28 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getEnrolledCoursesWithProgress } from '../../services/learnerService';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCourses as fetchCoursesThunk } from '../../store/slices/courseSlice';
 
 export default function MyLearning() {
   const [courses, setCourses] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [loading, setLoading] = useState(true);
+  
+  const dispatch = useDispatch();
+  const { courses: allCourses, status } = useSelector(state => state.course);
+  const loading = status === 'loading' || status === 'idle';
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchMyCourses();
-  }, []);
-
-  const fetchMyCourses = async () => {
-    try {
-      setLoading(true);
-      const data = await getEnrolledCoursesWithProgress();
-      setCourses(data);
-    } catch (error) {
-      console.error('Failed to fetch enrolled courses:', error);
-    } finally {
-      setLoading(false);
+    if (status === 'idle') {
+      dispatch(fetchCoursesThunk());
     }
-  };
+  }, [status, dispatch]);
+
+  useEffect(() => {
+    if (status === 'succeeded' || allCourses.length > 0) {
+      setCourses(getEnrolledCoursesWithProgress(allCourses));
+    }
+  }, [allCourses, status]);
 
   const filteredCourses = courses.filter((course) => {
     const query = searchQuery.toLowerCase();

@@ -1,36 +1,36 @@
 import { useState } from 'react';
-import { authApi } from '../services/api/authApi';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser, registerUser } from '../store/slices/authSlice';
 import { auth, googleProvider } from '../config/firebase';
 import { signInWithPopup } from 'firebase/auth';
 
 export const useAuth = () => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const { status, error } = useSelector((state) => state.auth);
+  const loading = status === 'loading';
+
+  // Using local state for google auth loading to not interfere with redux status if needed, 
+  // but we can also just use a separate state. For simplicity, we'll keep local state for Google auth 
+  // since it's not currently in Redux, or we can just use the local loading.
+  const [googleLoading, setGoogleLoading] = useState(false);
+  const [googleError, setGoogleError] = useState(null);
 
   const login = async (credentials) => {
-    setLoading(true);
-    setError(null);
     try {
-      const response = await authApi.loginUser(credentials);
-      
-      localStorage.setItem("auth_token", response.token);
-      localStorage.setItem("user_role", response.user.role);
-      localStorage.setItem("user_name", response.user.fullName || response.user.identifier);
-      localStorage.setItem("user_email", response.user.identifier);
-
-      return response;
+      const resultAction = await dispatch(loginUser(credentials));
+      if (loginUser.fulfilled.match(resultAction)) {
+        return resultAction.payload;
+      } else {
+        throw new Error(resultAction.payload || 'Login gagal');
+      }
     } catch (err) {
-      const msg = err.response?.data?.message || err.message || 'Login gagal';
-      setError(msg);
-      throw new Error(msg);
-    } finally {
-      setLoading(false);
+      throw err;
     }
   };
 
   const loginWithGoogle = async () => {
-    setLoading(true);
-    setError(null);
+    setGoogleLoading(true);
+    setGoogleError(null);
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
@@ -55,30 +55,23 @@ export const useAuth = () => {
       };
     } catch (err) {
       const msg = err.message || 'Login dengan Google gagal';
-      setError(msg);
+      setGoogleError(msg);
       throw new Error(msg);
     } finally {
-      setLoading(false);
+      setGoogleLoading(false);
     }
   };
 
   const register = async (payload) => {
-    setLoading(true);
-    setError(null);
     try {
-      const response = await authApi.registerUser(payload);
-      
-      localStorage.setItem("auth_token", response.token);
-      localStorage.setItem("user_role", response.user.role);
-      localStorage.setItem("user_name", response.user.fullName);
-      localStorage.setItem("user_email", response.user.identifier);
-
-      return response;
+      const resultAction = await dispatch(registerUser(payload));
+      if (registerUser.fulfilled.match(resultAction)) {
+        return resultAction.payload;
+      } else {
+        throw new Error(resultAction.payload || 'Registrasi gagal');
+      }
     } catch (err) {
-      setError(err.message || 'Registrasi gagal');
       throw err;
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -86,7 +79,7 @@ export const useAuth = () => {
     login,
     loginWithGoogle,
     register,
-    loading,
-    error,
+    loading: loading || googleLoading,
+    error: error || googleError,
   };
 };

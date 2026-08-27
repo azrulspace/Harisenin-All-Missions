@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { authApi } from '../../services/api/authApi';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateProfile, updatePassword } from '../../store/slices/authSlice';
 
 export default function LearnerSettings() {
+  const dispatch = useDispatch();
+  const { user } = useSelector(state => state.auth);
+
   const [profileForm, setProfileForm] = useState({
-    fullName: 'Hazrul Aswad',
-    email: 'azrulspace@gmail.com',
+    fullName: user?.fullName || 'Hazrul Aswad',
+    email: user?.email || user?.identifier || 'azrulspace@gmail.com',
     phone: '6285810882584',
     bio: ''
   });
@@ -43,21 +47,20 @@ export default function LearnerSettings() {
     e.preventDefault();
     setIsSubmittingProfile(true);
     try {
-      // Typically we'd have the user ID from auth context or local storage. 
-      // For mock, we just update local storage and show success.
-      localStorage.setItem('user_name', profileForm.fullName);
-      localStorage.setItem('user_email', profileForm.email);
-      
-      // Simulating API Call
-      await new Promise(resolve => setTimeout(resolve, 500));
+      if (!user?.id) {
+        throw new Error("User ID not found");
+      }
+      await dispatch(updateProfile({
+        userId: user.id,
+        payload: {
+          fullName: profileForm.fullName,
+          email: profileForm.email,
+          phone: profileForm.phone,
+          bio: profileForm.bio
+        }
+      })).unwrap();
       
       alert('Profile updated successfully!');
-      
-      // Reload page to reflect updated name in header
-      window.location.reload();
-    } catch (error) {
-      alert('Failed to update profile.');
-      console.error(error);
     } finally {
       setIsSubmittingProfile(false);
     }
@@ -72,12 +75,20 @@ export default function LearnerSettings() {
     
     setIsSubmittingPassword(true);
     try {
-      // Simulating API Call
-      await new Promise(resolve => setTimeout(resolve, 500));
+      if (!user?.id) {
+        throw new Error("User ID not found");
+      }
+      await dispatch(updatePassword({
+        userId: user.id,
+        payload: {
+          currentPassword: passwordForm.currentPassword,
+          newPassword: passwordForm.newPassword
+        }
+      })).unwrap();
       alert('Password updated successfully!');
       setPasswordForm({ currentPassword: '', newPassword: '' });
     } catch (error) {
-      alert('Failed to update password.');
+      alert(error || 'Failed to update password.');
       console.error(error);
     } finally {
       setIsSubmittingPassword(false);

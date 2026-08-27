@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { learnerApi } from '../../services/api/learnerApi';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchLearners, addLearner, updateLearnerStatus, deleteLearner } from '../../store/slices/learnerSlice';
 import AddLearnerModal from './components/AddLearnerModal';
 
 export default function ManageLearners() {
-  const [learners, setLearners] = useState([]);
+  const dispatch = useDispatch();
+  const { learners, status } = useSelector((state) => state.learner);
+  const isLoading = status === 'loading';
   const [filteredLearners, setFilteredLearners] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   
   // Modals & Popups
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -44,27 +46,21 @@ export default function ManageLearners() {
   }, [searchQuery, learners]);
 
   const fetchData = async () => {
-    setIsLoading(true);
     try {
-      const data = await learnerApi.getLearners();
-      // Ensure date sorts newest first
-      const sorted = data.sort((a, b) => new Date(b.registeredAt || 0) - new Date(a.registeredAt || 0));
-      setLearners(sorted);
+      await dispatch(fetchLearners());
     } catch (error) {
       console.error("Failed to fetch learners", error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
   // Add Manual
   const handleAddManual = async (formData) => {
     try {
-      await learnerApi.addLearner({
+      await dispatch(addLearner({
         name: formData.fullName,
         email: formData.email,
         phone: formData.phone
-      });
+      }));
       setIsAddModalOpen(false);
       fetchData();
     } catch (error) {
@@ -79,11 +75,11 @@ export default function ManageLearners() {
       // Simulate adding multiple via loop (in real app, use bulk API)
       for (const item of dataArray) {
         if (item.Name || item.Email) {
-          await learnerApi.addLearner({
+          await dispatch(addLearner({
             name: item.Name || '',
             email: item.Email || '',
             phone: item.PhoneNumber || ''
-          });
+          }));
         }
       }
       setIsAddModalOpen(false);
@@ -97,7 +93,7 @@ export default function ManageLearners() {
   // Status Action Handlers
   const handleStatusUpdate = async (id, newStatus) => {
     try {
-      await learnerApi.updateLearnerStatus(id, newStatus);
+      await dispatch(updateLearnerStatus({ id, newStatus }));
       fetchData();
       setActiveDropdownId(null);
     } catch (error) {
@@ -108,7 +104,7 @@ export default function ManageLearners() {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to remove this learner?")) {
       try {
-        await learnerApi.deleteLearner(id);
+        await dispatch(deleteLearner(id));
         fetchData();
         setActiveDropdownId(null);
       } catch (error) {
