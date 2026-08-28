@@ -20,7 +20,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"fullName\": \"Learner Test\",\n    \"email\": \"learner@test.com\",\n    \"password\": \"password123\",\n    \"phoneNumber\": \"08123456789\"\n}"
+              "raw": "{\n    \"fullName\": \"Learner Test\",\n    \"email\": \"new_learner@test.com\",\n    \"password\": \"password123\",\n    \"phoneNumber\": \"08123456789\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/v1/auth/register",
@@ -48,7 +48,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"email\": \"learner@test.com\",\n    \"password\": \"password123\"\n}"
+              "raw": "{\n    \"email\": \"learner.dkv@idn.sch.id\",\n    \"password\": \"password123\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/v1/auth/login",
@@ -76,7 +76,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"email\": \"admin@harisenin.com\",\n    \"password\": \"admin123\"\n}"
+              "raw": "{\n    \"email\": \"admin.dkv@idn.sch.id\",\n    \"password\": \"admin123dkv\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/v1/auth/login",
@@ -121,7 +121,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/v1/courses/belajar-ui-ux",
+              "raw": "{{baseUrl}}/api/v1/courses/belajar-ui-ux-design-pemula",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -129,7 +129,7 @@
                 "api",
                 "v1",
                 "courses",
-                "belajar-ui-ux"
+                "belajar-ui-ux-design-pemula"
               ]
             }
           }

@@ -43,7 +43,7 @@ async function main() {
       software: 'Figma',
       description: 'Panduan lengkap mendesain produk digital dari wireframe hingga prototipe interaktif.',
       thumbnailUrl: 'https://images.unsplash.com/photo-1581291518857-4e27b48ff24e',
-      level: 'Beginner',
+      level: 'BEGINNER',
       status: 'PUBLISHED',
       price: 0,
       isFree: true,
