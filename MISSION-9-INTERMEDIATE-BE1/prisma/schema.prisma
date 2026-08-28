@@ -1,0 +1,200 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  ADMIN
+  EDUCATOR
+  STUDENT
+}
+
+enum Provider {
+  LOCAL
+  GOOGLE
+  FACEBOOK
+}
+
+enum CourseLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+enum CourseStatus {
+  DRAFT
+  PUBLISHED
+  COMING_SOON
+}
+
+enum LessonType {
+  VIDEO
+  PDF
+  TEXT
+}
+
+enum EnrollmentStatus {
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+model User {
+  id           String   @id @default(uuid()) @db.Uuid
+  fullName     String   @map("full_name") @db.VarChar(150)
+  email        String   @unique @db.VarChar(150)
+  phoneNumber  String?  @unique @map("phone_number") @db.VarChar(20)
+  passwordHash String?  @map("password_hash") @db.VarChar(255)
+  avatarUrl    String?  @map("avatar_url") @db.VarChar(255)
+  role         Role     @default(STUDENT)
+  isVerified   Boolean  @default(false) @map("is_verified")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  accounts         Account[]
+  enrollments      Enrollment[]
+  lessonProgresses LessonProgress[]
+  courseEducators  CourseEducator[]
+
+  @@map("users")
+}
+
+model Account {
+  id             String    @id @default(uuid()) @db.Uuid
+  userId         String    @map("user_id") @db.Uuid
+  providerType   Provider  @map("provider_type")
+  providerId     String?   @map("provider_id") @db.VarChar(255)
+  otpCode        String?   @map("otp_code") @db.VarChar(10)
+  otpExpiresAt   DateTime? @map("otp_expires_at")
+  createdAt      DateTime  @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("accounts")
+}
+
+model Category {
+  id          Int      @id @default(autoincrement()) @db.SmallInt
+  name        String   @db.VarChar(100)
+  slug        String   @unique @db.VarChar(120)
+  description String?  @db.Text
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  courses Course[]
+
+  @@map("categories")
+}
+
+model Course {
+  id            String       @id @default(uuid()) @db.Uuid
+  categoryId    Int          @map("category_id") @db.SmallInt
+  title         String       @db.VarChar(200)
+  slug          String       @unique @db.VarChar(220)
+  software      String?      @db.VarChar(100)
+  description   String?      @db.Text
+  thumbnailUrl  String?      @map("thumbnail_url") @db.VarChar(255)
+  level         CourseLevel
+  status        CourseStatus @default(DRAFT)
+  price         Decimal      @default(0) @db.Decimal(12, 2)
+  isFree        Boolean      @default(false) @map("is_free")
+  totalChapters Int          @default(0) @map("total_chapters") @db.SmallInt
+  totalLessons  Int          @default(0) @map("total_lessons") @db.SmallInt
+  createdAt     DateTime     @default(now()) @map("created_at")
+  updatedAt     DateTime     @updatedAt @map("updated_at")
+
+  category    Category         @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  chapters    Chapter[]
+  educators   CourseEducator[]
+  enrollments Enrollment[]
+
+  @@index([categoryId, status])
+  @@map("courses")
+}
+
+model CourseEducator {
+  id          String   @id @default(uuid()) @db.Uuid
+  courseId    String   @map("course_id") @db.Uuid
+  userId      String?  @map("user_id") @db.Uuid 
+  name        String   @db.VarChar(150)
+  roleTitle   String?  @map("role_title") @db.VarChar(100)
+  linkedinUrl String?  @map("linkedin_url") @db.VarChar(255)
+  avatarUrl   String?  @map("avatar_url") @db.VarChar(255)
+  sortOrder   Int      @default(0) @map("sort_order") @db.SmallInt
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  user   User?  @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@map("course_educators")
+}
+
+model Chapter {
+  id        String   @id @default(uuid()) @db.Uuid
+  courseId  String   @map("course_id") @db.Uuid
+  title     String   @db.VarChar(150)
+  sortOrder Int      @default(0) @map("sort_order") @db.SmallInt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  course  Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessons Lesson[]
+
+  @@index([courseId, sortOrder])
+  @@map("chapters")
+}
+
+model Lesson {
+  id              String     @id @default(uuid()) @db.Uuid
+  chapterId       String     @map("chapter_id") @db.Uuid
+  title           String     @db.VarChar(200)
+  lessonType      LessonType @map("lesson_type")
+  contentUrl      String?    @map("content_url") @db.VarChar(500)
+  textContent     String?    @map("text_content") @db.Text
+  description     String?    @db.Text
+  durationSeconds Int        @default(0) @map("duration_seconds")
+  sortOrder       Int        @default(0) @map("sort_order") @db.SmallInt
+  createdAt       DateTime   @default(now()) @map("created_at")
+  updatedAt       DateTime   @updatedAt @map("updated_at")
+
+  chapter  Chapter          @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  progress LessonProgress[]
+
+  @@index([chapterId, sortOrder])
+  @@map("lessons")
+}
+
+model Enrollment {
+  id                 String           @id @default(uuid()) @db.Uuid
+  userId             String           @map("user_id") @db.Uuid
+  courseId           String           @map("course_id") @db.Uuid
+  status             EnrollmentStatus @default(ACTIVE)
+  progressPercentage Decimal          @default(0) @map("progress_percentage") @db.Decimal(5, 2)
+  enrolledAt         DateTime         @default(now()) @map("enrolled_at")
+  completedAt        DateTime?        @map("completed_at")
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, courseId])
+  @@map("enrollments")
+}
+
+model LessonProgress {
+  id                String    @id @default(uuid()) @db.Uuid
+  userId            String    @map("user_id") @db.Uuid
+  lessonId          String    @map("lesson_id") @db.Uuid
+  isCompleted       Boolean   @default(false) @map("is_completed")
+  lastWatchDuration Int       @default(0) @map("last_watch_duration")
+  completedAt       DateTime? @map("completed_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId])
+  @@map("lesson_progress")
+}
