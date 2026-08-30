@@ -1,66 +1,75 @@
-# Harisenin LMS Edu Course Backend (Mission 9)
+# LMS Edu Course Backend - Mission 10 (REST API & DML)
 
-Welcome to the backend repository for the **LMS Edu Course** project (Mission 9 Intermediate Backend). This project serves as a robust and scalable REST API designed to manage online courses, enrollments, users, and educational materials.
+Proyek ini merupakan implementasi API backend menggunakan Node.js, Express, dan Prisma ORM untuk mengelola operasi CRUD (Data Manipulation Language) secara komprehensif pada platform Learning Management System (LMS) SMK DKV IDN.
 
 ## 🚀 Tech Stack
 
+Proyek ini dibangun menggunakan teknologi berikut:
 - **Runtime:** [Node.js](https://nodejs.org/)
 - **Framework:** [Express.js](https://expressjs.com/)
-- **Database ORM:** [Prisma](https://www.prisma.io/)
+- **Database ORM:** [Prisma ORM](https://www.prisma.io/)
 - **Database Engine:** PostgreSQL
-- **Security:** `bcryptjs` for password hashing, `jsonwebtoken` for stateless authentication sessions, `helmet` and `cors` for API security.
 
-## 🏗 Architecture & Design Pattern
+## 🛠 Prerequisites & Installation
 
-The codebase adheres strictly to the **Service Layer Pattern** to ensure separation of concerns and a clean codebase:
+### Prasyarat
+Sebelum memulai, pastikan Anda telah menginstal perangkat lunak berikut di perangkat lokal Anda:
+- Node.js (v18 atau lebih baru direkomendasikan)
+- PostgreSQL (Pastikan service database berjalan)
+- Postman (Untuk pengujian REST API)
 
-- **Routes (`src/routes/`)**: Defines the endpoint mappings and applies necessary middlewares (like authentication/authorization).
-- **Controllers (`src/controllers/`)**: Responsible only for handling incoming HTTP request data and returning HTTP responses using standardized formatters. No direct database queries happen here.
-- **Services (`src/services/`)**: Contains all core business logic and Database ORM interactions (Prisma). Controllers delegate their work to these services.
-- **Utils (`src/utils/`)**: Standalone helper functions like response formatting, JWT signing/verifying, and password hashing.
-- **Middlewares (`src/middlewares/`)**: Contains logic to intercept requests (e.g., verifying JWTs, role checking, global error handling specifically tailored for Prisma unique constraints).
+### Instalasi & Setup
 
-## 🛠 Prerequisites
-
-Make sure you have the following installed on your machine:
-- Node.js (v18 or higher recommended)
-- PostgreSQL
-- Postman (for API testing)
-
-## 💻 Local Setup Instructions
-
-1. **Install Dependencies**
+1. **Install Dependensi**
+   Jalankan perintah berikut pada terminal di dalam direktori proyek:
    ```bash
    npm install
    ```
 
-2. **Configure Environment Variables**
-   Ensure you have a `.env` file at the root of the project with your connection details:
+2. **Setup Environment Variables**
+   Buat file `.env` di *root directory* proyek Anda (jika belum ada) dan sesuaikan konfigurasi koneksi database Anda:
    ```env
-   DATABASE_URL="postgresql://user:password@localhost:5432/edu_course_db?schema=public"
-   JWT_SECRET="your_secret_key"
-   JWT_EXPIRES_IN="1d"
    PORT=5000
+   NODE_ENV=development
+   DATABASE_URL="postgresql://username:password@localhost:5432/edu_course_db?schema=public"
    ```
+   *(Ganti `username`, `password`, dan `edu_course_db` dengan kredensial PostgreSQL Anda).*
 
-3. **Database Migration & Sync**
-   Ensure your PostgreSQL server is running, then execute Prisma to build the tables:
+3. **Sinkronisasi Skema Database**
+   Terapkan skema Prisma Anda ke dalam PostgreSQL dengan menjalankan:
    ```bash
-   npx prisma generate
    npx prisma db push
+   # atau jika Anda menggunakan fitur migration:
+   # npx prisma migrate dev
    ```
 
-4. **Run the Development Server**
-   ```bash
-   npm run dev
-   ```
-   The server will start on `http://localhost:5000`.
+## 💻 Running the Server
 
-## 🧪 API Testing with Postman
+Untuk menjalankan server di dalam mode *development*, eksekusi perintah berikut di terminal:
+```bash
+npm run dev
+```
+Secara default, server akan menyala dan siap menerima *request* pada:
+**`http://localhost:5000`**
 
-A complete Postman Collection is provided for easy API testing and assessment.
+## 📖 API Endpoints Reference
 
-1. Locate the file: `docs/LMS-EduCourse-API.postman_collection.json`
-2. Open Postman.
-3. Click **Import** and select the `.json` file.
-4. Set the `baseUrl`, `adminToken`, and `learnerToken` in the **Variables** tab of the imported collection to begin testing endpoints.
+Berikut adalah tabel rujukan lengkap untuk keseluruhan 5 endpoint REST API utama pada entitas **Course**:
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/v1/courses` | Mengambil seluruh data kelas |
+| `GET` | `/api/v1/courses/:id` | Mengambil data kelas spesifik berdasarkan ID |
+| `POST` | `/api/v1/courses` | Menambahkan data kelas baru (Insert) |
+| `PATCH` | `/api/v1/courses/:id` | Memperbarui sebagian data kelas spesifik (Update) |
+| `DELETE` | `/api/v1/courses/:id` | Menghapus kelas spesifik berdasarkan ID |
+
+## 🧪 Testing via Postman
+
+Proyek ini telah dilengkapi dengan file dokumen *Postman Collection* yang sudah memuat format JSON siap pakai untuk menguji kelima endpoint di atas.
+
+1. Buka aplikasi **Postman**.
+2. Klik tombol **Import** pada antarmuka Postman.
+3. Pilih file `docs/Mission-10-Postman.json` dari dalam folder proyek ini.
+4. Anda akan melihat koleksi baru bernama **Mission 10 - Course API**.
+5. Pastikan server lokal Anda menyala (`npm run dev`), lalu jalankan request API secara berurutan mulai dari *Create*, *Get All*, *Get By ID*, *Update*, dan *Delete*.
