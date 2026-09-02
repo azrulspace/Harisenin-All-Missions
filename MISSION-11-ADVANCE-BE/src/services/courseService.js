@@ -47,8 +47,6 @@ const getCourseById = async (id) => {
 };
 
 const createCourse = async (payload) => {
-  // Need to handle required fields like title, slug, categoryId, level.
-  // We can just pass the payload directly and let Prisma validate it.
   const course = await prisma.course.create({
     data: payload,
   });
@@ -56,7 +54,6 @@ const createCourse = async (payload) => {
 };
 
 const updateCourse = async (id, payload) => {
-  // Verify course exists
   const existingCourse = await prisma.course.findUnique({ where: { id } });
   if (!existingCourse) {
     throw Object.assign(new Error('Course not found'), { statusCode: 404 });
@@ -70,7 +67,6 @@ const updateCourse = async (id, payload) => {
 };
 
 const deleteCourse = async (id) => {
-  // Verify course exists
   const existingCourse = await prisma.course.findUnique({ where: { id } });
   if (!existingCourse) {
     throw Object.assign(new Error('Course not found'), { statusCode: 404 });

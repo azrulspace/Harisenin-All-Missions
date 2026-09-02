@@ -7,7 +7,6 @@ const prisma = require('../config/prisma');
 const registerUser = async (data) => {
   const { fullName, email, password, role } = data;
   
-  // Check if user exists
   const existingUser = await prisma.user.findUnique({ where: { email } });
   if (existingUser) {
     throw Object.assign(new Error('Email already exists'), { statusCode: 400 });
@@ -27,7 +26,6 @@ const registerUser = async (data) => {
     },
   });
 
-  // Simulate email sending using nodemailer and ethereal
   const testAccount = await nodemailer.createTestAccount();
   const transporter = nodemailer.createTransport({
     host: testAccount.smtp.host,
@@ -51,7 +49,6 @@ const registerUser = async (data) => {
 
   console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
 
-  // Return user without sensitive data
   const { passwordHash: _, verificationToken: __, ...userWithoutSensitiveData } = user;
   return userWithoutSensitiveData;
 };

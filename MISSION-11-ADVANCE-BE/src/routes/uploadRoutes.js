@@ -8,8 +8,7 @@ router.post('/', upload.single('image'), (req, res) => {
     return res.status(400).json({ status: 'error', message: 'No file uploaded' });
   }
 
-  // Construct URL
-  const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+  const fileUrl = `${req.protocol}://${req.get('host')}/upload/${req.file.filename}`;
 
   res.status(200).json({
     status: 'success',
