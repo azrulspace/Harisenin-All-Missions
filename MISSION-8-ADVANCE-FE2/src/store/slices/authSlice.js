@@ -134,17 +134,21 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.isAuthenticated = true;
-        state.user = action.payload.user;
-        state.token = action.payload.token;
         
-        // Persist
-        localStorage.setItem('auth_token', action.payload.token);
-        localStorage.setItem('user_data', JSON.stringify(action.payload.user));
-        localStorage.setItem('user_role', action.payload.user.role);
-        localStorage.setItem('user_email', action.payload.user.identifier || action.payload.user.email);
-        if (action.payload.user.fullName) {
-          localStorage.setItem('user_name', action.payload.user.fullName);
+        // Only set authenticated if a token was actually returned
+        if (action.payload.token) {
+          state.isAuthenticated = true;
+          state.user = action.payload.user;
+          state.token = action.payload.token;
+          
+          // Persist
+          localStorage.setItem('auth_token', action.payload.token);
+          localStorage.setItem('user_data', JSON.stringify(action.payload.user));
+          localStorage.setItem('user_role', action.payload.user.role);
+          localStorage.setItem('user_email', action.payload.user.identifier || action.payload.user.email);
+          if (action.payload.user.fullName) {
+            localStorage.setItem('user_name', action.payload.user.fullName);
+          }
         }
       })
       .addCase(registerUser.rejected, (state, action) => {

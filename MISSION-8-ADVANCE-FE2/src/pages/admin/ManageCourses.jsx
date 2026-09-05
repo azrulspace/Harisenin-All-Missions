@@ -124,7 +124,7 @@ export default function ManageCourses() {
                     </td>
                     <td className="px-6 py-4">
                       <span className="text-sm font-medium text-gray-900">
-                        {course.price === 'GRATIS' ? 'GRATIS' : `Rp ${Number(course.price).toLocaleString('id-ID')}`}
+                        {course.isFree ? 'GRATIS' : `Rp ${Number(course.price || 0).toLocaleString('id-ID')}`}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-900 font-medium">

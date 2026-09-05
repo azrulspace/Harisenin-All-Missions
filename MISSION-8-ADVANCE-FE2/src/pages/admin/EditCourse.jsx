@@ -18,14 +18,14 @@ export default function EditCourse() {
           setInitialData({
             title: course.title,
             description: course.description || '',
-            level: course.level || 'Beginner',
+            level: course.level ? course.level.charAt(0).toUpperCase() + course.level.slice(1).toLowerCase() : 'Beginner',
             software: course.software || '',
-            price: course.price === 'GRATIS' ? 0 : Number(course.price),
-            isFree: course.price === 'GRATIS',
-            thumbnailUrl: course.detailData?.coverImage || '',
+            price: course.price || 0,
+            isFree: course.isFree || false,
+            thumbnailUrl: course.thumbnailUrl || '',
             status: course.status === 'ACTIVE' ? 'PUBLISHED' : course.status,
-            sections: course.detailData?.sections || [],
-            educators: course.detailData?.educators || []
+            sections: course.chapters || [],
+            educators: []
           });
         } else {
           navigate('/admin/courses');
@@ -40,22 +40,16 @@ export default function EditCourse() {
 
   const handleUpdateCourse = async (formData) => {
     const updatedCourseData = {
-      software: formData.software,
       title: formData.title,
+      software: formData.software,
       description: formData.description,
-      chapters: formData.sections.length,
-      videos: formData.sections.reduce((acc, sec) => acc + sec.materials.length, 0),
-      level: formData.level,
-      price: formData.isFree ? 'GRATIS' : formData.price,
-      status: formData.status === 'PUBLISHED' ? 'ACTIVE' : formData.status,
-      lastEdit: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
-      footer: formData.status === 'PUBLISHED' ? `LAST UPDATE ${new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).toUpperCase()}` : 'COMING SOON',
-      detailData: {
-        isFree: formData.isFree,
-        coverImage: formData.thumbnailUrl || initialData.thumbnailUrl || "https://images.unsplash.com/photo-1544256718-3bcf237f3974?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-        educators: formData.educators,
-        sections: formData.sections
-      }
+      thumbnailUrl: formData.thumbnailUrl || initialData.thumbnailUrl || "https://images.unsplash.com/photo-1544256718-3bcf237f3974?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      level: formData.level.toUpperCase(),
+      status: formData.status === 'PUBLISHED' ? 'ACTIVE' : 'DRAFT',
+      price: formData.isFree ? 0 : Number(formData.price || 0),
+      isFree: formData.isFree,
+      totalChapters: formData.sections?.length || 0,
+      totalLessons: formData.sections?.reduce((acc, sec) => acc + (sec.materials?.length || 0), 0) || 0,
     };
 
     try {

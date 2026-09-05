@@ -8,28 +8,18 @@ export default function CreateCourse() {
   const { createCourse } = useCourses();
 
   const handleCreateCourse = async (formData) => {
-    // Convert formData to match the simplified structure required by the landing page
-    // and also keep the detailed data for the detail page.
+    // Map to backend Prisma schema
     const newCourse = {
-      software: formData.software,
       title: formData.title,
+      software: formData.software,
       description: formData.description,
-      chapters: formData.sections.length,
-      videos: formData.sections.reduce((acc, sec) => acc + sec.materials.length, 0), // Simplification: count all materials as videos for the summary
-      level: formData.level,
-      price: formData.isFree ? 'GRATIS' : formData.price,
-      status: formData.status === 'PUBLISHED' ? 'ACTIVE' : formData.status,
-      learners: 0,
-      lastEdit: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
-      footer: formData.status === 'PUBLISHED' ? `LAST UPDATE ${new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).toUpperCase()}` : 'COMING SOON',
-      
-      // Detailed form data for the CourseDetail page to consume
-      detailData: {
-        isFree: formData.isFree,
-        coverImage: formData.thumbnailUrl || "https://images.unsplash.com/photo-1544256718-3bcf237f3974?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-        educators: formData.educators,
-        sections: formData.sections
-      }
+      thumbnailUrl: formData.thumbnailUrl || "https://images.unsplash.com/photo-1544256718-3bcf237f3974?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      level: formData.level.toUpperCase(),
+      status: formData.status === 'PUBLISHED' ? 'ACTIVE' : 'DRAFT',
+      price: formData.isFree ? 0 : Number(formData.price || 0),
+      isFree: formData.isFree,
+      totalChapters: formData.sections?.length || 0,
+      totalLessons: formData.sections?.reduce((acc, sec) => acc + (sec.materials?.length || 0), 0) || 0,
     };
 
     try {

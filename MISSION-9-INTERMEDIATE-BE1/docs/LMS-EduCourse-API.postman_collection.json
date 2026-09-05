@@ -23,9 +23,9 @@
               "raw": "{\n    \"fullName\": \"Learner Test\",\n    \"email\": \"new_learner@test.com\",\n    \"password\": \"password123\",\n    \"phoneNumber\": \"08123456789\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/api/v1/auth/register",
+              "raw": "http://localhost:5000/api/v1/auth/register",
               "host": [
-                "{{baseUrl}}"
+                "http://localhost:5000"
               ],
               "path": [
                 "api",
@@ -51,9 +51,9 @@
               "raw": "{\n    \"email\": \"learner.dkv@idn.sch.id\",\n    \"password\": \"password123\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/api/v1/auth/login",
+              "raw": "http://localhost:5000/api/v1/auth/login",
               "host": [
-                "{{baseUrl}}"
+                "http://localhost:5000"
               ],
               "path": [
                 "api",
@@ -79,9 +79,9 @@
               "raw": "{\n    \"email\": \"admin.dkv@idn.sch.id\",\n    \"password\": \"admin123dkv\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/api/v1/auth/login",
+              "raw": "http://localhost:5000/api/v1/auth/login",
               "host": [
-                "{{baseUrl}}"
+                "http://localhost:5000"
               ],
               "path": [
                 "api",
@@ -103,9 +103,9 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/v1/courses",
+              "raw": "http://localhost:5000/api/v1/courses",
               "host": [
-                "{{baseUrl}}"
+                "http://localhost:5000"
               ],
               "path": [
                 "api",
@@ -121,9 +121,9 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/v1/courses/belajar-ui-ux-design-pemula",
+              "raw": "http://localhost:5000/api/v1/courses/belajar-ui-ux-design-pemula",
               "host": [
-                "{{baseUrl}}"
+                "http://localhost:5000"
               ],
               "path": [
                 "api",
@@ -158,9 +158,9 @@
               "raw": "{\n    \"categoryId\": 1,\n    \"title\": \"UI/UX Design for Beginners\",\n    \"slug\": \"ui-ux-design-beginners\",\n    \"level\": \"BEGINNER\",\n    \"status\": \"PUBLISHED\",\n    \"price\": 150000,\n    \"isFree\": false\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/api/v1/admin/courses",
+              "raw": "http://localhost:5000/api/v1/admin/courses",
               "host": [
-                "{{baseUrl}}"
+                "http://localhost:5000"
               ],
               "path": [
                 "api",
@@ -195,9 +195,9 @@
               "raw": "{\n    \"courseId\": \"{{courseId}}\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/api/v1/learner/enrollments",
+              "raw": "http://localhost:5000/api/v1/learner/enrollments",
               "host": [
-                "{{baseUrl}}"
+                "http://localhost:5000"
               ],
               "path": [
                 "api",
@@ -227,9 +227,9 @@
               "raw": "{\n    \"lessonId\": \"{{lessonId}}\",\n    \"isCompleted\": true,\n    \"lastWatchDuration\": 120\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/api/v1/learner/progress",
+              "raw": "http://localhost:5000/api/v1/learner/progress",
               "host": [
-                "{{baseUrl}}"
+                "http://localhost:5000"
               ],
               "path": [
                 "api",

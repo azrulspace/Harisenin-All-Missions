@@ -24,9 +24,9 @@ export default function CourseCard({ course }) {
     <div className="bg-[#F8F9FA] rounded-[24px] border border-gray-200/70 p-2.5 pb-3 flex flex-col justify-between h-full min-w-[320px] w-full">
       <div className="bg-white rounded-[18px] border border-gray-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex flex-col h-full overflow-hidden">
         
-        {course.coverImage ? (
+        {course.thumbnailUrl || course.coverImage ? (
           <div className="relative h-[178px] shrink-0">
-            <img src={course.coverImage} alt="Course Cover" className="w-full h-full object-cover" />
+            <img src={course.thumbnailUrl || course.coverImage} alt="Course Cover" className="w-full h-full object-cover" />
             <div className="absolute top-5 left-5 bg-[#EA3829] text-white text-[12px] font-semibold px-3 py-1 rounded-full w-fit flex items-center gap-1.5 shadow-sm">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
               <span>New Course</span>

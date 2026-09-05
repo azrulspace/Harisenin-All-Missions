@@ -38,7 +38,7 @@ export default function CourseDetail() {
             learnersJoined: fetchedCourse.learners || 0,
             price: fetchedCourse.price === 'GRATIS' || Number(fetchedCourse.price) === 0 ? 0 : Number(fetchedCourse.price),
             isFree: fetchedCourse.price === 'GRATIS' || Number(fetchedCourse.price) === 0,
-            coverImage: fetchedCourse.detailData?.coverImage || '',
+            coverImage: fetchedCourse.thumbnailUrl || fetchedCourse.detailData?.coverImage || '',
             educators: fetchedCourse.detailData?.educators || [],
             chapters: sections.map(section => ({
               id: Math.random().toString(),
@@ -257,7 +257,7 @@ export default function CourseDetail() {
                 
                 {/* Cover Image */}
                 <img 
-                  src={course.coverImage} 
+                  src={course.thumbnailUrl || course.coverImage} 
                   alt="Course Cover" 
                   className="rounded-xl w-full h-[220px] object-cover"
                 />

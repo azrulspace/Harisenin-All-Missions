@@ -57,9 +57,9 @@ export default function LearnerCourseCard({ course, onEnrollSuccess }) {
     <div className="bg-[#F8F9FA] rounded-[24px] border border-gray-200/70 p-2.5 pb-3 flex flex-col justify-between h-full w-full">
       <div className="bg-white rounded-[18px] border border-gray-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex flex-col h-full overflow-hidden">
         
-        {course.coverImage ? (
+        {course.thumbnailUrl || course.coverImage ? (
           <div className="relative h-[178px] shrink-0">
-            <img src={course.coverImage} alt="Course Cover" className="w-full h-full object-cover" />
+            <img src={course.thumbnailUrl || course.coverImage} alt="Course Cover" className="w-full h-full object-cover" />
             {isComingSoon ? (
               <div className="absolute top-5 left-5 bg-[#0070F3] text-white text-[12px] font-semibold px-3 py-1 rounded-full w-fit flex items-center gap-1.5 shadow-sm">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v4"></path><path d="M12 18v4"></path><path d="M4.93 4.93l2.83 2.83"></path><path d="M16.24 16.24l2.83 2.83"></path><path d="M2 12h4"></path><path d="M18 12h4"></path><path d="M4.93 19.07l2.83-2.83"></path><path d="M16.24 7.76l2.83-2.83"></path></svg>
