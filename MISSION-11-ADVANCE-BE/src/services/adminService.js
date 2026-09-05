@@ -2,6 +2,9 @@ const prisma = require('../config/prisma');
 
 // Courses
 const createCourse = async (data) => {
+  if (!data.slug && data.title) {
+    data.slug = data.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') + '-' + Date.now();
+  }
   return prisma.course.create({
     data,
   });

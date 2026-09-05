@@ -47,6 +47,9 @@ const getCourseById = async (id) => {
 };
 
 const createCourse = async (payload) => {
+  if (!payload.slug && payload.title) {
+    payload.slug = payload.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') + '-' + Date.now();
+  }
   const course = await prisma.course.create({
     data: payload,
   });

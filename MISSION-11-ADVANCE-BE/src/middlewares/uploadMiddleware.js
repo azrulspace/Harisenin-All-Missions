@@ -19,7 +19,7 @@ const upload = multer({
     const extName = fileTypes.test(path.extname(file.originalname).toLowerCase());
     const mimeType = fileTypes.test(file.mimetype);
 
-    if (extName && mimeType) {
+    if (extName || mimeType) {
       return cb(null, true);
     } else {
       cb(Object.assign(new Error('Images only!'), { statusCode: 400 }));

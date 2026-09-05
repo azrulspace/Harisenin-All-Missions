@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const authenticate = (req, res, next) => {
+const authenticateToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -18,6 +18,15 @@ const authenticate = (req, res, next) => {
   }
 };
 
+const authorizeAdmin = (req, res, next) => {
+  if (req.user && req.user.role === 'ADMIN') {
+    next();
+  } else {
+    return res.status(403).json({ status: 'error', message: 'Forbidden, admin access only' });
+  }
+};
+
 module.exports = {
-  authenticate,
+  authenticateToken,
+  authorizeAdmin,
 };

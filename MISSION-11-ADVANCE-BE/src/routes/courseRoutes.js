@@ -7,14 +7,14 @@ const {
   deleteCourse,
 } = require('../controllers/courseController');
 
-const { authenticate } = require('../middlewares/authMiddleware');
+const { authenticateToken } = require('../middlewares/authMiddleware');
 
 const router = express.Router();
 
 router.get('/', getAllCourses);
 router.get('/:id', getCourseById);
-router.post('/', authenticate, createCourse);
-router.patch('/:id', authenticate, updateCourse);
-router.delete('/:id', authenticate, deleteCourse);
+router.post('/', authenticateToken, createCourse);
+router.patch('/:id', authenticateToken, updateCourse);
+router.delete('/:id', authenticateToken, deleteCourse);
 
 module.exports = router;
